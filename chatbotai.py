@@ -16,7 +16,7 @@ initial_message =[
 
 def get_response_from_llm(messages):
     completion = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="whisper-1",
     messages= messages
     )
     return completion.choices[0].message.content
@@ -48,4 +48,5 @@ if user_message:
         st.session_state.messages.append(response_message)
         with st.chat_message(response_message['role']):
             st.markdown(response_message["content"])
+            
         
