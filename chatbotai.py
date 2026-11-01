@@ -1,11 +1,14 @@
 from dotenv import load_dotenv
-
+import os
 from openai import OpenAI
 import streamlit as st
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="https://openrouter.ai/api/v1",
+)
 initial_message =[
      {"role": "system", "content": "Your are a trip planner in Kerala. You are an expert in Kerala Tourism, locations, food,events, etc. You are able to guid users to plan their vation to Kerala. You should respond professionally. Response shouldn't 200 words"},
         {
@@ -16,7 +19,7 @@ initial_message =[
 
 def get_response_from_llm(messages):
     completion = client.chat.completions.create(
-    model="whisper-1",
+    model="gpt-4o-mini",
     messages= messages
     )
     return completion.choices[0].message.content
@@ -48,5 +51,4 @@ if user_message:
         st.session_state.messages.append(response_message)
         with st.chat_message(response_message['role']):
             st.markdown(response_message["content"])
-            
         
